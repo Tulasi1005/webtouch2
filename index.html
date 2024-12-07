@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+      integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+      integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Efficient Responsive Navbar</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      :root {
+        --primary-color: #ff6f61;
+        --text-color: #333;
+        --hover-bg: rgba(255, 111, 97, 0.1);
+        --transition-speed: 0.3s;
+        --font-family: 'Arial', sans-serif;
+      }
+      /* Navbar Container */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: var(--transition-speed);
+      }
+
+      .logo:hover {
+        transform: scale(1.1);
+        color: darkred;
+      }
+
+      /* Navbar Links */
+      .nav-links {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        font-size: 1rem;
+        color: var(--text-color);
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: var(--transition-speed);
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        background-color: var(--hover-bg);
+        color: var(--primary-color);
+      }
+
+      /* Hover Animation Effect */
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary-color);
+        transition: width var(--transition-speed),
+          transform var(--transition-speed);
+        transform: translateX(-50%);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hamburger Menu */
+      .menu-btn {
+        display: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: var(--primary-color);
+      }
+
+      /* Mobile Menu Styles */
+      @media (max-width: 768px) {
+        .menu-btn {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          gap: 10px;
+          position: absolute;
+          top: 60px;
+          right: 20px;
+          background: #fff;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          padding: 10px 20px;
+          border-radius: 8px;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+      }
+
+      /* Responsive for large screens */
+      @media (min-width: 1024px) {
+        nav {
+          padding: 15px 40px;
+        }
+
+        .nav-links a {
+          font-size: 1.1rem;
+          padding: 10px 15px;
+        }
+      }
+      /* From Uiverse.io by gharsh11032000 */
+      .card {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        perspective: 1000px;
+        box-shadow: 0 0 0 5px #ffffff80;
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .card svg {
+        width: 48px;
+        fill: #333;
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+      }
+
+      .card__content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #f2f2f2;
+        transform: rotateX(-90deg);
+        transform-origin: bottom;
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .card:hover .card__content {
+        transform: rotateX(0deg);
+      }
+
+      .card__title {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+        font-weight: 700;
+      }
+
+      .card:hover svg {
+        scale: 0;
+      }
+
+      .card__description {
+        margin: 10px 0 0;
+        font-size: 14px;
+        color: #777;
+        line-height: 1.4;
+      }
+      /* animation cards css */
+      h1 {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      padding: 20px;
+      gap: 20px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .card {
+      flex: 0 0 300px;
+     
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      color: #000000;
+      scroll-snap-align: start;
+      transform: scale(0.9);
+      transition: transform 0.3s, opacity 0.3s;
+      opacity: 0.5;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .card.visible {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+     
+      border-radius: 10px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Animation keyframes */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card.visible {
+      animation: fadeIn 0.6s ease-out;
+    }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img
+        style="width: 200px"
+        src="https://webtouch.co.in/images/logo.jpg"
+        alt="logo"
+      />
+      <div class="menu-btn">&#9776;</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#product">Product</a></li>
+        <li><a href="#pricing">Plan & Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#free-trial">Free Trial</a></li>
+        <li><a href="#free-demo">Free Demo</a></li>
+      </ul>
+    </nav>
+    <!-- carosal html code -->
+    <div class="slider">
+      <div class="list">
+        <div class="item">
+          <img src="img/9.png" alt="" />
+
+          <!-- <div class="content">
+                <div class="title">MAGIC SLIDER</div>
+                <div class="type">FLOWER</div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti temporibus quis eum consequuntur voluptate quae doloribus distinctio. Possimus, sed recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, aut.
+                </div>
+                <div class="button">
+                    <button>SEE MORE</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="item">
+          <img src="img/10.jpg" alt="" />
+
+          <!-- <div class="content">
+                <div class="title">MAGIC SLIDER</div>
+                <div class="type">NATURE</div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti temporibus quis eum consequuntur voluptate quae doloribus distinctio. Possimus, sed recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, aut.
+                </div>
+                <div class="button">
+                    <button>SEE MORE</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="item">
+          <img src="img/13.jpg" alt="" />
+
+          <!-- <div class="content">
+                <div class="title">MAGIC SLIDER</div>
+                <div class="type">PLANT</div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti temporibus quis eum consequuntur voluptate quae doloribus distinctio. Possimus, sed recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, aut.
+                </div>
+                <div class="button">
+                    <button>SEE MORE</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="item">
+          <img src="img/11.jpeg" alt="" />
+
+          <!-- <div class="content">
+                <div class="title">MAGIC SLIDER</div>
+                <div class="type">NATURE</div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti temporibus quis eum consequuntur voluptate quae doloribus distinctio. Possimus, sed recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, aut.
+                </div>
+                <div class="button">
+                    <button>SEE MORE</button>
+                </div>
+            </div> -->
+        </div>
+      </div>
+
+      <div class="thumbnail">
+        <div class="item">
+          <img src="img/9.png" alt="" />
+        </div>
+        <div class="item">
+          <img src="img/10.jpg" alt="" />
+        </div>
+        <div class="item">
+          <img src="img/13.jpg" alt="" />
+        </div>
+        <div class="item">
+          <img src="img/11.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="nextPrevArrows">
+        <button class="prev"><</button>
+        <button class="next">></button>
+      </div>
+    </div>
+    <div class="container custom mt-5">
+      <div>
+        <img
+          class="sai"
+          src="https://www.ringcentral.com/gb/en/blog/wp-content/uploads/2021/05/happy-manager-leads-a-meeting-in-the-office-640x427.jpg"
+          alt=""
+        />
+      </div>
+      <div class="form-section">
+        <form id="userForm">
+          <h2>Contact Us</h2>
+          <div class="input-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              required
+              aria-describedby="firstNameError"
+            />
+            <div class="error" id="firstNameError"></div>
+            <div class="valid"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              required
+              aria-describedby="lastNameError"
+            />
+            <div class="error" id="lastNameError"></div>
+            <div class="valid"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="mobile">Mobile Number</label>
+            <input
+              type="tel"
+              id="mobile"
+              required
+              aria-describedby="mobileError"
+            />
+            <div class="error" id="mobileError"></div>
+            <div class="valid"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              aria-describedby="emailError"
+            />
+            <div class="error" id="emailError"></div>
+            <div class="valid"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              required
+              aria-describedby="messageError"
+            ></textarea>
+            <div class="error" id="messageError"></div>
+            <div class="valid"></div>
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+    <!-- card html start here -->
+
+    <div class="container mt-5">
+      <div class="row" style="display: flex; justify-content: center">
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img
+              style="height: 100px"
+              src="http://127.0.0.1:5503/images/it_service/i1.png"
+              alt=""
+            />
+            <h5>Webex Events</h5>
+            <p style="padding: 6px">
+              Webex Events is the ultimate solution for hosting interactive
+              webinars.
+            </p>
+            <div class="card__content">
+              <p class="card__description">
+                Webex Events is our solution for hosting interactive webinars or
+                large- scale virtual events. 1000 Participtant Plans Starts @
+                Rs:4000/- Per Host Per Month.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- card 2  -->
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img
+              style="height: 100px"
+              src="http://127.0.0.1:5503/images/it_service/i2.png"
+              alt=""
+            />
+            <h5>Webex Training</h5>
+            <p style="padding: 6px">
+              Designed to cater to businesses and organizations of all sizes.
+            </p>
+            <div class="card__content">
+              <p class="card__description">
+                Webex Training is a solution for delivering impactful virtual
+                trainings that keep your learners engaged. 1000 Participtants
+                Plan starts @ Rs: 4000/-Per Host PM.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- card3  -->
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img
+              style="height: 100px"
+              src="http://127.0.0.1:5503/images/it_service/i3.png"
+              alt=""
+            />
+            <h5>Webex Services</h5>
+            <p style="padding: 6px">
+              1,000 Participant Plan starting at ₹4,000 per host per month.
+            </p>
+            <div class="card__content">
+              <p class="card__description">
+                Webex Brings Everyone together to do exceptional work.
+                Instantaly meet face to face with the most engaging, Interactive
+                Video Conferencing Solution. Cisco Webex Meeting Center Price at
+                Rs:3000 Per Month
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- card html end here -->
+    <!-- price cards start here -->
+    <div class="pricing-container mt-5">
+      <div class="pricing-card" data-aos="fade-up">
+        <h2 class="product-name">
+          <span class="w">W</span>EBEX <span class="t">T</span>RY &
+          <span class="b">B</span>UY
+        </h2>
+        <p class="capacity">UPTO 200 PEOPLE PER MEETING</p>
+        <div class="price">
+          <span class="currency">INR</span>
+          <span class="amount free">0</span>
+        </div>
+        <p class="billing">Billed Annually</p>
+        <ul class="features">
+          <li>Webex Meetings Business Suite Included</li>
+          <li>30 Days Free Account</li>
+          <li>Unlimited meetings, up to 40 min per meeting</li>
+          <li>Up to 100 attendees per meeting</li>
+        </ul>
+        <a href="#" class="cta-button">Free Trial</a>
+      </div>
+
+      <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="product-name">
+          <span class="w">W</span>EBEX <span class="m">M</span>EETINGS
+        </h2>
+        <p class="capacity">UPTO 1000 PEOPLE PER MEETING</p>
+        <div class="price">
+          <span class="currency">INR</span>
+          <span class="amount">2950</span>
+        </div>
+        <p class="billing">/per/Host/month*</p>
+        <ul class="features">
+          <li>Billed Annually Min. 1 Host</li>
+          <li>License</li>
+          <li>Immediate Activation</li>
+          <li>AI Assistant</li>
+          <li>Unlimited meetings, up to 24 hours</li>
+        </ul>
+        <a href="#" class="cta-button">Buy</a>
+      </div>
+
+      <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="product-name">
+          <span class="w">W</span>EBEX <span class="t">T</span>RAINING
+        </h2>
+        <p class="capacity">UPTO 1000 PEOPLE PER MEETING</p>
+        <div class="price">
+          <span class="currency">INR</span>
+          <span class="amount">4000</span>
+        </div>
+        <p class="billing">/per/Host/month*</p>
+        <ul class="features">
+          <li>Billed Annually Min. 5 Host Licenses</li>
+          <li>Immediate Activation</li>
+          <li>Up to 200 attendees per meeting</li>
+          <li>Everything listed in Webex Starter, plus</li>
+        </ul>
+        <a href="#" class="cta-button">Buy</a>
+      </div>
+
+      <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+        <h2 class="product-name">
+          <span class="w">W</span>EBEX <span class="e">E</span>VENTS
+        </h2>
+        <p class="capacity">UPTO 200 PEOPLE PER MEETING</p>
+        <div class="price">
+          <span class="currency">INR</span>
+          <span class="amount">4000</span>
+        </div>
+        <p class="billing">/per/Host/month*</p>
+        <ul class="features">
+          <li>Billed Annually Min. 5 Host Licenses</li>
+          <li>Immediate Activation</li>
+          <li>Up to 1,000 attendees</li>
+          <li>Local & Unlimited Cloud Recording Storage</li>
+          <li>Everything listed in Webex Business, plus</li>
+        </ul>
+        <a href="#" class="cta-button">Buy</a>
+      </div>
+    </div>
+
+    <!-- ends here -->
+
+    <!-- carosual start here  -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div
+            id="carouselExampleCaptions"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="https://www.webtouch.co.in/images/slide4.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>
+                    Some representative placeholder content for the first slide.
+                  </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://www.webtouch.co.in/images/slide1.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>
+                    Some representative placeholder content for the second
+                    slide.
+                  </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://www.webtouch.co.in/images/slide2.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>
+                    Some representative placeholder content for the third slide.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+    </div>
+    <!-- ends here -->
+    <!-- contact html start here -->
+    <div class="container mt-5">
+      <div class="contact__root">
+        <section class="contact__container">
+          <div class="">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-4">
+                  <!-- Talk to Specialist Card -->
+                  <div class="contact__card contact__fade-in">
+                    <div class="contact__icon-wrapper">
+                      <svg
+                        class="contact__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                        <path
+                          d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <h2 class="contact__title">TALK TO A SPECIALIST</h2>
+                    <p class="contact__description">
+                      Got questions? Want to see a live demo? We'll be in touch
+                      within 24 hours.
+                    </p>
+                    <a href="tel:+917729921013" class="contact__button"
+                      >+91-7729921013</a
+                    >
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <!-- Contact Us Card -->
+                  <div class="contact__card contact__fade-in">
+                    <div class="contact__icon-wrapper">
+                      <svg
+                        class="contact__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <h2 class="contact__title">CONTACT US</h2>
+                    <p class="contact__description">
+                      Speak directly to one of our sales representatives by
+                      calling.
+                    </p>
+                    <a href="#" class="contact__button">CONTACT SALES</a>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <!-- Support Card -->
+                  <div class="contact__card contact__fade-in">
+                    <div class="contact__icon-wrapper">
+                      <svg
+                        class="contact__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                        ></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </div>
+                    <h2 class="contact__title">SUPPORT</h2>
+                    <p class="contact__description">
+                      Check out our help centre for answers to common questions.
+                    </p>
+                    <a href="#" class="contact__button">SUPPORT</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- emds here -->
+     <!-- scrolling animations  -->
+     <h1>Scrolling Cards with WOW Effect</h1>
+   <div class="container">
+    <div class="scroll-container">
+      <div class="card">
+       <img src="https://www.webtouch.co.in/images/webex1.png" alt="">
+        <p>Cisco Webex Meetings
+          Video meetings made simple</p>
+      </div>
+      <div class="card">
+     <img src="https://www.webtouch.co.in/images/webex2.png" alt="">
+        <p>Cisco Webex Teams
+          Continuous teamwork in one place</p>
+      </div>
+      <div class="card">
+       <img src="https://www.webtouch.co.in/images/webex3.png" alt="">
+        <p>Cisco Webex Calling
+          Calling without complexity</p>
+      </div>
+      <div class="card">
+       <img src="https://www.webtouch.co.in/images/webex4.png" alt="">
+        <p>Cisco Webex Devices
+          Videos devices to connect and create</p>
+      </div>
+     
+    </div>
+   </div>
+
+
+    <script src="script.js"></script>
+  </body>
+</html>
